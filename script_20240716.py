@@ -15,55 +15,6 @@ limiter = "t00z"
 
 dir1 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/urma_v13/com/obsproc/v1.3/urma.20240829"
 
-dir2 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/3d_urma.12/com/obsproc/v1.2/urma.20240829"
-
-prepbufr1 = dir1 + "/" + "urma." +limiter+ ".prepbufr.tm00"
-
-prepbufr2 = dir2 + "/" + "urma."+limiter+".prepbufr.tm00"
-
-binv = "/u/ashley.stanfield/bin/binv"
-
-#specify where to find the STMP and COMROOT directories
-#mySTMP = '/scratch1/NCEPDEV/global/glopara/dump/gdas.20240720/00/atmos/' #'C:/Users/jason.welsh/Downloads'
-#STMP = subprocess.call('"$STMP"',shell=False)
-#myCOMROOT = '/scratch1/NCEPDEV/global/glopara/dump/gdas.20240720/00/atmos/' #'C:/Users/jason.welsh/Downloads'
-#COMROOT = subprocess.call('"$COMROOT"',shell=False)
-
-#place the STMP path into a thePath variable
-thePath_in = dir1
-thePath_out = dir2
-
-#list the complete directory of where PREFIX files are located in the "in" directory
-prefix_in = "bufr_d"
-theFiles_in = [filename for filename in os.listdir('.') if filename.startswith(prefix_in)]
-
-#list the complete directory of where the files are located for a specific hour
-prefix_in = "00"
-theFiles_in = [theFiles_in for theFiles_in in os.listdir('.') if theFiles_in.startswith(prefix_in)]
-
-#list the complete directory of where ALL the files are located in the "in" directory
-theFiles_in = list(os.listdir(thePath_in))
-
-#place all the file names into a variable called 'filen'_in (file name) to be used later
-filess_in = []
-filen_in = []
-                                                                                     # -*- coding: utf-8 -*-
-"""
-Author: Jason Welsh
-Description: file computes the differences and percent differences of files within a designated directory.  It also
-takes the binv command from linux and computes the differences for all the categories and produces a difference
-and percent difference as well.
-Date Updated: July 10, 2024
-"""
-import numpy as np
-import os
-import pandas as pd
-import subprocess
-
-limiter = "t00z"
-
-dir1 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/urma_v13/com/obsproc/v1.3/urma.20240829"
-
 dir2 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/3d_urma.12/com/obsproc/v1.2/urma.20240829" 
 
 prepbufr1 = dir1 + "/" + "urma." +limiter+ ".prepbufr.tm00"
