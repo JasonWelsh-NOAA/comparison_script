@@ -5,6 +5,7 @@ Description: file computes the differences and percent differences of files with
 takes the binv command from linux and computes the differences for all the categories and produces a difference
 and percent difference as well.
 Date Updated: July 10, 2024
+MUST DO FIRST:  module load python/3.8.6
 """
 import numpy as np
 import os
@@ -13,9 +14,9 @@ import subprocess
 
 limiter = "t00z"
 
-dir1 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/urma_v13/com/obsproc/v1.3/urma.20240829"
+dir1 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/urma_v13/com/obsproc/v1.3/urma.20240923"
 
-dir2 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/3d_urma.12/com/obsproc/v1.2/urma.20240829" 
+dir2 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/3d_urma.12/com/obsproc/v1.2/urma.20240923" 
 
 prepbufr1 = dir1 + "/" + "urma." +limiter+ ".prepbufr.tm00"
 
@@ -98,8 +99,13 @@ table_of_diff_percent_diff.sort_values('Names', ascending=True)
 table_of_diff_percent_diff.to_csv('table_of_diff_percent_diff.csv')
 
 #Place your own path names to where you would like to compare the two prepbufr files
+<<<<<<< HEAD
 subprocess.check_output(binv prepbufr1  " > output1.csv", shell=True, text=True)
 subprocess.check_output(binv prepbufr2  " > output2.csv", shell=True, text=True)
+=======
+os.system("binv "+ prepbufr1 + " > output1.csv")
+os.system("binv "+ prepbufr2 + " > output2.csv")
+>>>>>>> c76ec43f9721c87ab73dc7297295acfbe59502c8
 
 #After writing out the two csv files from the binv command; read the files into be processed further
 output1 = pd.read_csv("output1.csv")
