@@ -106,9 +106,7 @@ table_of_diff_percent_diff.to_csv('table_of_diff_percent_diff.csv')
 
 #Place your own path names to where you would like to compare the two prepbufr files
 
-#subprocess.check_output(binv + prepbufr1+  " > output1.csv")
 os.system(binv + prepbufr1 + " > output1.csv")
-#subprocess.check_output(binv+ prepbufr2 + " > output2.csv")
 os.system(binv + prepbufr2 + " > output2.csv")
 
 #After writing out the two csv files from the binv command; read the files into be processed further
