@@ -14,15 +14,19 @@ import subprocess
 
 limiter = "t00z"
 
-dir1 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/urma_v13/com/obsproc/v1.3/urma.20240923"
+dir1 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/00/atmos/"
 
-dir2 = "/lfs/h2/emc/ptmp/ashley.stanfield/CRON/3d_urma.12/com/obsproc/v1.2/urma.20240923" 
+dir2 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/06/atmos/" 
 
-prepbufr1 = dir1 + "/" + "urma." +limiter+ ".prepbufr.tm00"
+#prepbufr1 = dir1
+#prepbufr1 = dir1 + "/" + "gfs." +limiter+ ".prepbufr.tm00"
+prepbufr1 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/00/atmos/gfs.t00z.prepbufr"
 
-prepbufr2 = dir2 + "/" + "urma."+limiter+".prepbufr.tm00"
+#prepbufr2 = dir2
+#prepbufr2 = dir2 + "/" + "gfs."+limiter+".prepbufr.tm00"
+prepbufr2 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/06/atmos/gfs.t06z.prepbufr"
 
-binv = "/u/ashley.stanfield/bin/binv"
+binv = "/home/Iliana.Genkova/bin/binv "
 
 #specify where to find the STMP and COMROOT directories
 #mySTMP = '/scratch1/NCEPDEV/global/glopara/dump/gdas.20240720/00/atmos/' #'C:/Users/jason.welsh/Downloads'
@@ -77,6 +81,8 @@ filen_out = pd.DataFrame(filen_out)
 
 #Compute only the values that are equal between each directory for differences and percent differences
 
+filen_out = filen_out[:-1]
+
 equal_names_only_in = filen_in[filen_in == filen_out]
 
 equal_values_only_in = filess_in[filen_in == filen_out]
@@ -92,16 +98,18 @@ percent_diff = diff_file_sizes/equal_values_only_out
 #Place computed values into a table and save to a csv file
 table_of_diff_percent_diff = pd.concat([equal_names_only_in, equal_values_only_in, equal_names_only_out, equal_values_only_out, diff_file_sizes, percent_diff], axis=1)
 
-table_of_diff_percent_diff.columns = ['Names', 'Sizes', 'Names', 'Sizes', 'Diff', '% Diff']
+table_of_diff_percent_diff.columns = ['Names_1', 'Sizes', 'Names_2', 'Sizes', 'Diff', '% Diff']
 
-table_of_diff_percent_diff.sort_values('Names', ascending=True)
+table_of_diff_percent_diff.sort_values('Names_1', ascending=True)
 
 table_of_diff_percent_diff.to_csv('table_of_diff_percent_diff.csv')
 
 #Place your own path names to where you would like to compare the two prepbufr files
 
-subprocess.check_output(binv prepbufr1  " > output1.csv", shell=True, text=True)
-subprocess.check_output(binv prepbufr2  " > output2.csv", shell=True, text=True)
+#subprocess.check_output(binv + prepbufr1+  " > output1.csv")
+os.system(binv + prepbufr1 + " > output1.csv")
+#subprocess.check_output(binv+ prepbufr2 + " > output2.csv")
+os.system(binv + prepbufr2 + " > output2.csv")
 
 #After writing out the two csv files from the binv command; read the files into be processed further
 output1 = pd.read_csv("output1.csv")
@@ -138,7 +146,7 @@ OUTPUT2.append(strip(Convert(output2.iat[i,0])))
 
 y_d = np.shape(OUTPUT1)
 
-table = np.zeros((4,y_d[0]-1))
+table = np.zeros((4,y_d[0]-1), dtype=object)
 
 output_subset1 = []
 output_subset2 = []
@@ -151,8 +159,8 @@ for v in range(3):
         
 
 
-ppd1 = np.zeros((1,y_d[0]-1))
-ppd2 = np.zeros((1,y_d[0]-1))
+ppd1 = np.zeros((1,y_d[0]-1),dtype=object)
+ppd2 = np.zeros((1,y_d[0]-1),dtype=object)
 
 for vv in range(0):
     for c in range(y_d[0]-1):
@@ -179,4 +187,4 @@ table111 = pd.concat([names, table.T,ppd1.T,ppd2.T], axis=1)
 
 table111.columns = ['Type', 'messages', 'subsets', 'bytes', 'unamed', 'percent prepbufr diff output1','percent prepbufr diff output2']
 table111 = table111.iloc[:-1]
-table111.to_csv('table_of_diff.csv')
+table111.to_csv('table_of_diff1.csv')
