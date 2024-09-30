@@ -16,7 +16,7 @@ limiter = "t00z"
 
 dir1 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/00/atmos/"
 
-dir2 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/06/atmos/" 
+dir2 = "/scratch1/NCEPDEV/da/Dagmar.Merkova/experimentaldump/gfs.20220723/00/atmos" 
 
 #prepbufr1 = dir1
 #prepbufr1 = dir1 + "/" + "gfs." +limiter+ ".prepbufr.tm00"
@@ -73,34 +73,49 @@ for i in range(len(theFiles_out)):
     filen_out.append(theFiles_out[i])
 
 #place the variables from filen and filess from the input and output file directories into dataframes
-filess_in = pd.DataFrame(filess_in)
-filess_out = pd.DataFrame(filess_out)
 
-filen_in = pd.DataFrame(filen_in)
-filen_out = pd.DataFrame(filen_out)
+filess_in = pd.DataFrame(filess_in, columns=['in_num'])
+filess_out = pd.DataFrame(filess_out, columns=['out_num'])
+
+filen_in = pd.DataFrame(filen_in, columns=['name'])
+filen_out = pd.DataFrame(filen_out, columns=['name'])
 
 #Compute only the values that are equal between each directory for differences and percent differences
 
-filen_out = filen_out[:-1]
+FIN = pd.concat([filen_in, filess_in], axis=1)
 
-equal_names_only_in = filen_in[filen_in == filen_out]
+FOUT = pd.concat([filen_out, filess_out], axis=1)
 
-equal_values_only_in = filess_in[filen_in == filen_out]
+matching_values = pd.merge(FIN,FOUT, on='name',how='inner')
 
-equal_names_only_out = filen_out[filen_in == filen_out]
+matching_values_difference = matching_values['in_num'] - matching_values['out_num']
 
-equal_values_only_out = filess_out[filen_in == filen_out]
+matching_values_percent_diff = matching_values_difference/matching_values['out_num']
 
-diff_file_sizes = equal_values_only_in - equal_values_only_out
+print(matching_values_percent_diff)
 
-percent_diff = diff_file_sizes/equal_values_only_out
+#matching_values_percent_difference = matching_
+
+#print(matching_values)
+
+#equal_names_only_in = filen_in[filen_in == filen_out]
+
+#equal_values_only_in = filess_in[filen_in == filen_out]
+
+#equal_names_only_out = filen_out[filen_in == filen_out]
+
+#equal_values_only_out = filess_out[filen_in == filen_out]
+
+#diff_file_sizes = equal_values_only_in - equal_values_only_out
+
+#percent_diff = diff_file_sizes/equal_values_only_out
 
 #Place computed values into a table and save to a csv file
-table_of_diff_percent_diff = pd.concat([equal_names_only_in, equal_values_only_in, equal_names_only_out, equal_values_only_out, diff_file_sizes, percent_diff], axis=1)
+table_of_diff_percent_diff = pd.concat([matching_values['name'], matching_values['in_num'], matching_values['out_num'], matching_values_difference, matching_values_percent_diff], axis=1)
 
-table_of_diff_percent_diff.columns = ['Names_1', 'Sizes', 'Names_2', 'Sizes', 'Diff', '% Diff']
+table_of_diff_percent_diff.columns = ['names', 'in_num', 'out_num', 'Diff', '% Diff']
 
-table_of_diff_percent_diff.sort_values('Names_1', ascending=True)
+table_of_diff_percent_diff.sort_values('names', ascending=True)
 
 table_of_diff_percent_diff.to_csv('table_of_diff_percent_diff.csv')
 
