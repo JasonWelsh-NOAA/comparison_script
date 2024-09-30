@@ -98,7 +98,7 @@ both_right_left.to_csv('matching_and_unmatching_datasets.csv')
 brl1=both_right_left.query("_merge == 'right_only'")
 brl2=both_right_left.query("_merge == 'left_only'")
 
-if len(brl1) != 0 and len(brl2) != 0:
+if len(brl1) != 0 or len(brl2) != 0:
     print('The datasets have unmatched values.  Please look in unmatched.csv to see where this occurs.  Note: matching_and_unmatching_datasets.csv shows all matches and unmatches.')
     unmatched = pd.concat([brl1,brl2])
     unmatched.to_csv('unmatched.csv')
