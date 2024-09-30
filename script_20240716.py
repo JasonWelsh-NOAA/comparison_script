@@ -112,7 +112,7 @@ table_of_diff_percent_diff.columns = ['names', 'in_num', 'out_num', 'Diff', '% D
 
 table_of_diff_percent_diff.sort_values('names', ascending=True)
 
-table_of_diff_percent_diff.to_csv('table_of_diff_percent_diff.csv')
+table_of_diff_percent_diff.to_csv('table_diff_all_files.csv')
 
 #Place your own path names to where you would like to compare the two prepbufr files
 
@@ -195,4 +195,6 @@ table111 = pd.concat([names, table.T,ppd1.T,ppd2.T], axis=1)
 
 table111.columns = ['Type', 'messages', 'subsets', 'bytes', 'unamed', 'percent prepbufr diff output1','percent prepbufr diff output2']
 table111 = table111.iloc[:-1]
-table111.to_csv('table_of_diff1.csv')
+table111.to_csv('table_diff_prepbufr.csv')
+
+print("Script run successfully!")
