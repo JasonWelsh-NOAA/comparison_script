@@ -93,12 +93,17 @@ matching_values_difference = matching_values['in_num'] - matching_values['out_nu
 matching_values_percent_diff = matching_values_difference/matching_values['out_num']
 
 #Is data length equal between two directories and print ou files that are not matching. both indicates both match; and anything else indicates unmatched datasets.
-if len(filen_in) == len(filen_out):
-    print('Both data sources are equal in length')
+both_right_left=pd.merge(FIN,FOUT,on='name',indicator=True, how='outer')
+both_right_left.to_csv('matching_and_unmatching_datasets.csv')
+brl1=both_right_left.query("_merge == 'right_only'")
+brl2=both_right_left.query("_merge == 'left_only'")
+
+if len(brl1) != 0 and len(brl2) != 0:
+    print('The datasets have unmatched values.  Please look in unmatched.csv to see where this occurs.  Note: matching_and_unmatching_datasets.csv shows all matches and unmatches.')
+    unmatched = pd.concat([brl1,brl2])
+    unmatched.to_csv('unmatched.csv')
 else:
-    print('Both data sources are not equal in length')
-    both_right_left=pd.merge(FIN,FOUT,on='name',indicator=True, how='outer')
-    both_right_left.to_csv('matching_and_unmatching_datasets.csv')
+    print('All values match!')
 
 #Place data into a table and print out table to csv.
 table_of_diff_percent_diff = pd.concat([matching_values['name'], matching_values['in_num'], matching_values['out_num'], matching_values_difference, matching_values_percent_diff], axis=1)
