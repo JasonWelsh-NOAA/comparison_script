@@ -14,19 +14,24 @@ import subprocess
 
 limiter = "t00z"
 
-dir1 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/00/atmos/"
-
-dir2 = "/scratch1/NCEPDEV/da/Dagmar.Merkova/experimentaldump/gfs.20220723/00/atmos" 
+#dir1 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/00/atmos/"
+#dir2 = "/scratch1/NCEPDEV/da/Dagmar.Merkova/experimentaldump/gfs.20220723/00/atmos" 
+dir1 = "/lfs/h1/ops/prod/com/obsproc/v1.2/gfs.20240930/00/atmos/"
+dir2 = "/lfs/h2/emc/stmp/iliana.genkova/CRON/R13/com/obsproc/v1.3/gfs.20240930/00/atmos/" 
 
 #prepbufr1 = dir1
 #prepbufr1 = dir1 + "/" + "gfs." +limiter+ ".prepbufr.tm00"
-prepbufr1 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/00/atmos/gfs.t00z.prepbufr"
+#prepbufr1 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/00/atmos/gfs.t00z.prepbufr"
 
 #prepbufr2 = dir2
 #prepbufr2 = dir2 + "/" + "gfs."+limiter+".prepbufr.tm00"
-prepbufr2 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/06/atmos/gfs.t06z.prepbufr"
+#prepbufr2 = "/scratch1/NCEPDEV/global/glopara/dump/gfs.20220723/06/atmos/gfs.t06z.prepbufr"
 
-binv = "/home/Iliana.Genkova/bin/binv "
+prepbufr1 = "/lfs/h1/ops/prod/com/obsproc/v1.2/gfs.20240930/00/atmos/gfs.t00z.prepbufr"
+prepbufr2 = "/lfs/h2/emc/stmp/iliana.genkova/CRON/R13/com/obsproc/v1.3/gfs.20240930/00/atmos/gfs.t00z.prepbufr"
+
+#binv = "/home/Iliana.Genkova/bin/binv "
+binv = "/apps/ops/prod/libs/intel/19.1.3.304/bufr/11.7.0/bin/binv  "
 
 #specify where to find the STMP and COMROOT directories
 #mySTMP = '/scratch1/NCEPDEV/global/glopara/dump/gdas.20240720/00/atmos/' #'C:/Users/jason.welsh/Downloads'
